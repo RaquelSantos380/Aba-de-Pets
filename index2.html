@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisa de Pets do Adopt Me</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 8px;
+            margin: 5px 0;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        h2 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Pesquisa de Pets do Adopt Me</h2>
+    <input type="text" id="pesquisa" onkeyup="buscarPet()" placeholder="Pesquise por nome do pet...">
+
+    <ul id="listaPets">
+        <!-- Aqui aparecerão os resultados da pesquisa -->
+    </ul>
+
+    <script>
+        const pets = [
+            { nome: "Ouriço-do-mar", categoria: "Ultra Raro", valor: 855 },
+            { nome: "Dálmata", categoria: "Ultra Raro", valor: 418 },
+            { nome: "Flamingo", categoria: "Ultra Raro", valor: 333 },
+            { nome: "Leão", categoria: "Ultra Raro", valor: 319 },
+            { nome: "Lobo de Gelo", categoria: "Ultra Raro", valor: 300 },
+            { nome: "Rena de Gengibre", categoria: "Ultra Raro", valor: 250 },
+            { nome: "Jacaré", categoria: "Ultra Raro", valor: 194 },
+            { nome: "Papagaio-do-mar", categoria: "Ultra Raro", valor: 170 },
+            { nome: "Búfalo Zumbi", categoria: "Ultra Raro", valor: 153 },
+            { nome: "Ornitorrinco", categoria: "Ultra Raro", valor: 103 },
+            { nome: "Rinoceronte Lanudo", categoria: "Ultra Raro", valor: 100 },
+            { nome: "Peru", categoria: "Ultra Raro", valor: 90 },
+            { nome: "Lhama", categoria: "Ultra Raro", valor: 86 },
+            { nome: "Cabra", categoria: "Ultra Raro", valor: 85 },
+            { nome: "Raposa do Gelo", categoria: "Ultra Raro", valor: 69 },
+            { nome: "Borboleta Roxa", categoria: "Ultra Raro", valor: 64 },
+            { nome: "Orca", categoria: "Ultra Raro", valor: 63 },
+            { nome: "Spaniel de Água Irlandêsa", categoria: "Ultra Raro", valor: 63 },
+            { nome: "Spaniel Real", categoria: "Ultra Raro", valor: 63 },
+            { nome: "Macaco de Brinquedo", categoria: "Ultra Raro", valor: 62 },
+            { nome: "Carneiro", categoria: "Ultra Raro", valor: 60 },
+            { nome: "Macaco de Negócios", categoria: "Ultra Raro", valor: 59 },
+            { nome: "Bola de Neve", categoria: "Ultra Raro", valor: 55 },
+            { nome: "Lobo Zumbi", categoria: "Ultra Raro", valor: 55 },
+            { nome: "Cordeiro", categoria: "Ultra Raro", valor: 54 },
+            { nome: "Pônei Shetland Branco", categoria: "Ultra Raro", valor: 50 },
+            { nome: "Coelho Fantasma", categoria: "Ultra Raro", valor: 46 },
+            { nome: "Yeti", categoria: "Ultra Raro", valor: 44 },
+            { nome: "Morcego Albino", categoria: "Ultra Raro", valor: 41 },
+            { nome: "Basilisco Maligno", categoria: "Ultra Raro", valor: 40 },
+            { nome: "Chickatrice Maligno", categoria: "Ultra Raro", valor: 40 },
+            { nome: "Borboleta Laranja", categoria: "Ultra Raro", valor: 40 },
+            { nome: "Sapo", categoria: "Ultra Raro", valor: 40 },
+            { nome: "Coala", categoria: "Ultra Raro", valor: 40 },
+            { nome: "Besouro Gigante Azul", categoria: "Ultra Raro", valor: 39 },
+            { nome: "Lulu da Pomerânia", categoria: "Ultra Raro", valor: 39 },
+            { nome: "Springer Spaniel Marrom", categoria: "Ultra Raro", valor: 38 },
+            { nome: "Besouro Preto Gigante", categoria: "Ultra Raro", valor: 37 },
+            { nome: "Springer Spaniel Preto", categoria: "Ultra Raro", valor: 37 },
+            { nome: "Royal Corgi", categoria: "Ultra Raro", valor: 37 },
+            { nome: "Peixe-Palhaço", categoria: "Ultra Raro", valor: 36 },
+            { nome: "Wyvern", categoria: "Ultra Raro", valor: 34 },
+            { nome: "Hidra", categoria: "Ultra Raro", valor: 34 },
+            { nome: "Baleia Espacial", categoria: "Ultra Raro", valor: 33 },
+            { nome: "Esquilo Vermelho", categoria: "Ultra Raro", valor: 32 },
+            { nome: "Dente de Sabre", categoria: "Ultra Raro", valor: 31 },
+            { nome: "Deinonychus", categoria: "Ultra Raro", valor: 31 },
+            { nome: "São-Bernardo", categoria: "Ultra Raro", valor: 30 },
+            { nome: "Estrela-do-mar", categoria: "Ultra Raro", valor: 29 },
+            { nome: "Grou-de-Coroa-Vermelha", categoria: "Ultra Raro", valor: 28 },
+            { nome: "Joaninha", categoria: "Ultra Raro", valor: 28 },
+            { nome: "Aranha-do-mar", categoria: "Ultra Raro", valor: 27 },
+            { nome: "Albatroz", categoria: "Ultra Raro", valor: 26 },
+            { nome: "King Penguin", categoria: "Ultra Raro", valor: 26 },
+            { nome: "Tan Chow-Chow", categoria: "Ultra Raro", valor: 26 },
+            { nome: "Faisão-de-Peito-Marrom", categoria: "Ultra Raro", valor: 26 },
+            { nome: "Cavalo", categoria: "Ultra Raro", valor: 25 },
+            { nome: "Tucano", categoria: "Ultra Raro", valor: 25 },
+            { nome: "Texugo", categoria: "Ultra Raro", valor: 24 },
+            { nome: "Cão Esqueleto Branco de Halloween", categoria: "Ultra Raro", valor: 24 },
+            { nome: "Borboleta Escarlate", categoria: "Ultra Raro", valor: 24 },
+            { nome: "Foca Listrada", categoria: "Ultra Raro", valor: 23 },
+            { nome: "Caracol Alçapão", categoria: "Ultra Raro", valor: 23 },
+            { nome: "Tigre Branco Lunar", categoria: "Ultra Raro", valor: 22 },
+            { nome: "Marta-Americana", categoria: "Ultra Raro", valor: 22 },
+            { nome: "Salamandra", categoria: "Ultra Raro", valor: 22 },
+            { nome: "Peixe-Espada", categoria: "Ultra Raro", valor: 21 },
+            { nome: "Pinguim", categoria: "Ultra Raro", valor: 20 },
+            { nome: "Corgi", categoria: "Ultra Raro", valor: 20 },
+            { nome: "Robô", categoria: "Ultra Raro", valor: 19 },
+            { nome: "Abelha", categoria: "Ultra Raro", valor: 17 },
+            { nome: "Gato Laranja", categoria: "Ultra Raro", valor: 14 },
+            { nome: "Boi Lunar", categoria: "Ultra Raro", valor: 12 },
+            { nome: "Panda Vermelho", categoria: "Ultra Raro", valor: 10 },
+            { nome: "Shiba Inu", categoria: "Ultra Raro", valor: 10 },
+            { nome: "Panda", categoria: "Ultra Raro", valor: 10 },
+            { nome: "Preguiça", categoria: "Ultra Raro", valor: 9 }
+        ];
+
+        function buscarPet() {
+            let pesquisa = document.getElementById('pesquisa').value.toLowerCase();
+            let listaPets = document.getElementById('listaPets');
+            listaPets.innerHTML = '';
+
+            pets.forEach(pet => {
+                if (pet.nome.toLowerCase().includes(pesquisa)) {
+                    let listItem = document.createElement('li');
+                    listItem.textContent = `${pet.nome} - Categoria: ${pet.categoria} - Valor: ${pet.valor} robux`;
+                    listaPets.appendChild(listItem);
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

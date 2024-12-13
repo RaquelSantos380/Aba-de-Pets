@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisa de Pets do Adopt Me</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 8px;
+            margin: 5px 0;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        .valor {
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Pesquisa de Pets do Adopt Me</h2>
+    <input type="text" id="pesquisa" onkeyup="buscarPet()" placeholder="Pesquise por nome do pet..." aria-label="Pesquisar pet">
+
+    <ul id="listaPets">
+        <!-- Aqui aparecerão os resultados da pesquisa -->
+    </ul>
+
+    <script>
+        const pets = [
+            { nome: "Suricato", categoria: "Incomum", valor: 182 },
+            { nome: "Cachorro Azul", categoria: "Incomum", valor: 251 },
+            { nome: "Gato Rosa", categoria: "Incomum", valor: 151 },
+            { nome: "Javali Selvagem", categoria: "Incomum", valor: 147 },
+            { nome: "Pantera Negra", categoria: "Incomum", valor: 118 },
+            { nome: "Capivara", categoria: "Incomum", valor: 95 },
+            { nome: "Pato e Pato Bobo", categoria: "Incomum", valor: 85 },
+            { nome: "Lobo", categoria: "Incomum", valor: 69 },
+            { nome: "2021 e 2022 Mariposa Uplift", categoria: "Incomum", valor: 48 },
+            { nome: "Leopardo das Neves", categoria: "Incomum", valor: 38 },
+            { nome: "Chickatrice", categoria: "Incomum", valor: 32 },
+            { nome: "Boneco de Neve, Gato Múmia Preto do Dia das Bruxas e Roca", categoria: "Incomum", valor: 25 },
+            { nome: "Morcego", categoria: "Incomum", valor: 19 },
+            { nome: "Dingo", categoria: "Incomum", valor: 17 },
+            { nome: "Gliptodonte, Estegossauro e Triceratops", categoria: "Incomum", valor: 14 },
+            { nome: "Lesma", categoria: "Incomum", valor: 12 },
+            { nome: "Escorpião Azul do Dia das Bruxas", categoria: "Incomum", valor: 10 },
+            { nome: "Golfinho e Caranguejo", categoria: "Incomum", valor: 9 },
+            { nome: "Kirin", categoria: "Incomum", valor: 7 },
+            { nome: "Cardeal Vermelho, Burro, Camelo, Poodle", categoria: "Incomum", valor: 5 },
+            { nome: "Besouro-rinoceronte e Tanuki", categoria: "Incomum", valor: 4 },
+            { nome: "Labrador Chocolate, Raposa do Deserto, Puma e Gato da Neve", categoria: "Incomum", valor: 2 }
+        ];
+
+        function buscarPet() {
+            let pesquisa = document.getElementById("pesquisa").value.toLowerCase();
+            let resultado = pets.filter(pet => pet.nome.toLowerCase().includes(pesquisa));
+            mostrarResultado(resultado);
+        }
+
+        function mostrarResultado(resultado) {
+            let listaPets = document.getElementById("listaPets");
+            listaPets.innerHTML = "";
+            resultado.forEach(pet => {
+                let item = document.createElement("li");
+                item.innerHTML = `${pet.nome} - Categoria: ${pet.categoria} - <span class="valor">${pet.valor.toLocaleString()} robux</span>`;
+                listaPets.appendChild(item);
+            });
+        }
+    </script>
+
+</body>
+</html>

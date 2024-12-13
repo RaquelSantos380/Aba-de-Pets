@@ -1,185 +1,147 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Escolha a Raridade do Pet</title>
+    <title>Pesquisa de Pets do Adopt Me</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f2f2f2;
-            color: #333;
+            padding: 20px;
+            background-color: #f7f0fc;
+            color: #4a274f;
         }
 
-        /* Estilo do cabeçalho */
-        header {
-            background-color: #a07be7; /* Roxo claro */
-            color: white;
-            text-align: center;
-            padding: 30px;
-            font-size: 2rem;
-        }
-
-        /* Estilo da seção de opções */
-        .options {
-            text-align: center;
-            margin-top: 50px;
-        }
-
-        .options h2 {
-            font-size: 1.8rem;
-            color: #a07be7; /* Roxo claro */
-            margin-bottom: 20px;
-        }
-
-        .options button {
-            background-color: #a07be7;
-            color: white;
-            font-size: 1.2rem;
-            padding: 10px 20px;
-            margin: 10px;
-            border: none;
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #c49ac9;
             border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
+            background-color: #fdf5ff;
+            color: #4a274f;
+            font-size: 16px;
         }
 
-        .options button:hover {
-            background-color: #8663d9;
+        input[type="text"]::placeholder {
+            color: #9b6e9d;
         }
 
-        .options button.active {
-            background-color: #8663d9; /* Cor de botão clicado */
+        ul {
+            list-style-type: none;
+            padding: 0;
         }
 
-        /* Estilo da seção de imagens */
-        .inventory {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 50px;
+        li {
+            padding: 8px;
+            margin: 5px 0;
+            background-color: #fdf5ff;
+            border: 1px solid #e1bde2;
+            border-radius: 5px;
         }
 
-        .inventory div {
-            text-align: center;
-            margin: 10px;
-        }
-
-        .inventory img {
-            width: 200px;
-            height: 200px;
-            object-fit: cover;
-            margin: 10px;
-            border-radius: 10px;
+        h2 {
+            color: #5e2e68;
         }
 
         footer {
+            margin-top: 20px;
+            padding: 10px;
             text-align: center;
-            padding: 20px;
-            background-color: #a07be7;
-            color: white;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
+            background-color: #e9d4f1;
+            border-top: 2px solid #c49ac9;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #4a274f;
         }
 
-        .check-button {
-            background-color: #a07be7;
-            color: white;
-            font-size: 1.5rem;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
+        footer a {
+            color: #5e2e68;
             text-decoration: none;
-            display: inline-block;
-            margin-top: 30px;
         }
 
-        .check-button:hover {
-            background-color: #8663d9;
-        }
-
-        /* Estilo para o botão no rodapé */
-        .footer-button {
-            background-color: #a07be7;
-            color: white;
-            font-size: 1.5rem;
-            padding: 20px 40px;
-            border: 2px solid white;
-            border-radius: 25px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 30px;
-        }
-
-        .footer-button:hover {
-            background-color: #8663d9;
+        footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Qual será a raridade de seu pet?</h1>
-    </header>
 
-    <section class="options">
-        <h2>Escolha a raridade do seu pet:</h2>
-        <button onclick="setActiveButton(this)">Sem Poção</button>
-        <button onclick="setActiveButton(this)">R</button>
-        <button onclick="setActiveButton(this)">FR</button>
-        <button onclick="setActiveButton(this)">NFR</button>
-        <button onclick="setActiveButton(this)">MFR</button>
-    </section>
+    <h2>Pesquisa de Pets do Adopt Me</h2>
+    <input type="text" id="pesquisa" onkeyup="buscarPet()" placeholder="Pesquise pelo nome do pet...">
 
-    <section class="inventory" id="inventory">
-        <!-- Aqui você pode adicionar as imagens dos seus pets com a raridade acima -->
-        <div>
-            <p>Lendário</p>
-            <img src="1.jpg" alt="Pet Lendário">
-        </div>
-        <div>
-            <p>Ultra-Raro</p>
-            <img src="2.jpg" alt="Pet Ultra-Raro">
-        </div>
-        <div>
-            <p>Raro</p>
-            <img src="3.jpg" alt="Pet Raro">
-        </div>
-        <div>
-            <p>Incomum</p>
-            <img src="4.jpg" alt="Pet Incomum">
-        </div>
-        <div>
-            <p>Comum</p>
-            <img src="5.jpg" alt="Pet Comum">
-        </div>
-    </section>
-
-    <section class="available-pets">
-        <h2>Pets disponíveis na raridade que mencionou:</h2>
-    </section>
-
-    <footer>
-        <a href="https://rakyofficialstore.wordpress.com/289-2/" class="footer-button" target="_blank">Confira já os pets disponíveis</a>
-    </footer>
+    <ul id="listaPets">
+        <!-- Aqui aparecerão os resultados da pesquisa -->
+    </ul>
 
     <script>
-        // Função para marcar o botão clicado e rolar para o rodapé
-        function setActiveButton(button) {
-            // Remover a classe 'active' de todos os botões
-            let buttons = document.querySelectorAll('.options button');
-            buttons.forEach(b => b.classList.remove('active'));
+        const pets = [
+            { nome: "Dragao Sombrio", categoria: "Lendario", valor: 8503 },
+            { nome: "Dragao Morcego", categoria: "Lendario", valor: 6935 },
+            { nome: "Girafa", categoria: "Lendario", valor: 4940 },
+            { nome: "Ovo Safari", categoria: "Lendario", valor: 3420 },
+            { nome: "Dragao de Gelo", categoria: "Lendario", valor: 2993 },
+            { nome: "Coruja", categoria: "Lendario", valor: 2185 },
+            { nome: "Papagaio", categoria: "Lendario", valor: 1900 },
+            { nome: "Ovo da selva", categoria: "Lendario", valor: 1900 },
+            { nome: "Ovo da fazenda", categoria: "Lendario", valor: 1663 },
+            { nome: "Unicornio maligno", categoria: "Lendario", valor: 1497 },
+            { nome: "Corvo", categoria: "Lendario", valor: 1425 },
+            { nome: "Rei Macaco", categoria: "Lendario", valor: 677 },
+            { nome: "Rena artica", categoria: "Lendario", valor: 642 },
+            { nome: "Ovo de natal", categoria: "Lendario", valor: 428 },
+            { nome: "Capricornio", categoria: "Lendario", valor: 380 },
+            { nome: "Macaco albino", categoria: "Lendario", valor: 357 },
+            { nome: "Libelula", categoria: "Lendario", valor: 280 },
+            { nome: "Tartaruga", categoria: "Lendario", valor: 262 },
+            { nome: "Faisao de peito preto", categoria: "Lendario", valor: 240 },
+            { nome: "Albatroz de diamante", categoria: "Lendario", valor: 193 },
+            { nome: "Besouro gigante dourado", categoria: "Lendario", valor: 192 },
+            { nome: "Canguru", categoria: "Lendario", valor: 190 },
+            { nome: "Dragao de Lava", categoria: "Lendario", valor: 190 },
+            { nome: "Dragao Morcego de Morango", categoria: "Lendario", valor: 185 },
+            { nome: "Cavalo Justo Morto-vivo", categoria: "Lendario", valor: 185 },
+            { nome: "Borboleta Diamante", categoria: "Lendario", valor: 185 },
+            { nome: "Lobo Lava", categoria: "Lendario", valor: 185 },
+            { nome: "Furia do gelo", categoria: "Lendario", valor: 181 },
+            { nome: "Mechapup", categoria: "Lendario", valor: 180 },
+            { nome: "Dragao Fantasma Branco de Halloween", categoria: "Lendario", valor: 178 },
+            { nome: "Dragao Chines Dancante", categoria: "Lendario", valor: 178 },
+            { nome: "Camaleao", categoria: "Lendario", valor: 177 },
+            { nome: "Golem de Gelo", categoria: "Lendario", valor: 177 },
+            { nome: "Dragao Lavanda", categoria: "Lendario", valor: 177 },
+            { nome: "Diamond King Penguin", categoria: "Lendario", valor: 176 },
+            { nome: "Golden Chow-Chow", categoria: "Lendario", valor: 176 },
+            { nome: "Lula", categoria: "Lendario", valor: 175 },
+            { nome: "Planador de Acucar", categoria: "Lendario", valor: 175 },
+            { nome: "Cavalo Alado", categoria: "Lendario", valor: 175 },
+            { nome: "Unicornio de diamante", categoria: "Lendario", valor: 174 },
+            { nome: "Abelha rainha", categoria: "Lendario", valor: 151 },
+            { nome: "Macaco ninja", categoria: "Lendario", valor: 148 },
+            { nome: "Esqueleto Rex", categoria: "Lendario", valor: 143 },
+            { nome: "Dagao de diamante", categoria: "Lendario", valor: 133 },
+            { nome: "Borboleta verde", categoria: "Lendario", valor: 132 },
+            { nome: "Cavalo de justa", categoria: "Lendario", valor: 132 }
+        ];
 
-            // Adicionar a classe 'active' ao botão clicado
-            button.classList.add('active');
-            
-            // Rolar para o rodapé após o clique
-            document.querySelector('footer').scrollIntoView({ behavior: "smooth" });
+        function buscarPet() {
+            const input = document.getElementById('pesquisa');
+            const filtro = input.value.toLowerCase();
+            const lista = document.getElementById('listaPets');
+            lista.innerHTML = '';
+
+            pets.forEach(pet => {
+                if (pet.nome.toLowerCase().includes(filtro)) {
+                    const item = document.createElement('li');
+                    item.textContent = `${pet.nome} - ${pet.categoria} - Valor: ${pet.valor}`;
+                    lista.appendChild(item);
+                }
+            });
         }
     </script>
+
+    <footer>
+        <p>© 2024 Pesquisa de Pets. Desenvolvido pela RakyOfficialCenter.  <a href="#">Saiba mais</a>.</p>
+    </footer>
 </body>
 </html>
