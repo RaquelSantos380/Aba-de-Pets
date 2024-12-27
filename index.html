@@ -1,147 +1,267 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pesquisa de Pets do Adopt Me</title>
+    <title>Jogo</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            background-color: #f7f0fc;
-            color: #4a274f;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 2px solid #c49ac9;
-            border-radius: 5px;
-            background-color: #fdf5ff;
-            color: #4a274f;
-            font-size: 16px;
-        }
-
-        input[type="text"]::placeholder {
-            color: #9b6e9d;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        li {
-            padding: 8px;
-            margin: 5px 0;
-            background-color: #fdf5ff;
-            border: 1px solid #e1bde2;
-            border-radius: 5px;
-        }
-
-        h2 {
-            color: #5e2e68;
-        }
-
-        footer {
-            margin-top: 20px;
-            padding: 10px;
-            text-align: center;
-            background-color: #e9d4f1;
-            border-top: 2px solid #c49ac9;
-            border-radius: 5px;
-            font-size: 14px;
-            color: #4a274f;
-        }
-
-        footer a {
-            color: #5e2e68;
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
+        canvas {
+            border: 1px solid black;
         }
     </style>
 </head>
 <body>
-
-    <h2>Pesquisa de Pets do Adopt Me</h2>
-    <input type="text" id="pesquisa" onkeyup="buscarPet()" placeholder="Pesquise pelo nome do pet...">
-
-    <ul id="listaPets">
-        <!-- Aqui aparecerão os resultados da pesquisa -->
-    </ul>
-
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <audio id="backgroundMusic" src="music.mp3" loop></audio>
     <script>
-        const pets = [
-            { nome: "Dragao Sombrio", categoria: "Lendario", valor: 8503 },
-            { nome: "Dragao Morcego", categoria: "Lendario", valor: 6935 },
-            { nome: "Girafa", categoria: "Lendario", valor: 4940 },
-            { nome: "Ovo Safari", categoria: "Lendario", valor: 3420 },
-            { nome: "Dragao de Gelo", categoria: "Lendario", valor: 2993 },
-            { nome: "Coruja", categoria: "Lendario", valor: 2185 },
-            { nome: "Papagaio", categoria: "Lendario", valor: 1900 },
-            { nome: "Ovo da selva", categoria: "Lendario", valor: 1900 },
-            { nome: "Ovo da fazenda", categoria: "Lendario", valor: 1663 },
-            { nome: "Unicornio maligno", categoria: "Lendario", valor: 1497 },
-            { nome: "Corvo", categoria: "Lendario", valor: 1425 },
-            { nome: "Rei Macaco", categoria: "Lendario", valor: 677 },
-            { nome: "Rena artica", categoria: "Lendario", valor: 642 },
-            { nome: "Ovo de natal", categoria: "Lendario", valor: 428 },
-            { nome: "Capricornio", categoria: "Lendario", valor: 380 },
-            { nome: "Macaco albino", categoria: "Lendario", valor: 357 },
-            { nome: "Libelula", categoria: "Lendario", valor: 280 },
-            { nome: "Tartaruga", categoria: "Lendario", valor: 262 },
-            { nome: "Faisao de peito preto", categoria: "Lendario", valor: 240 },
-            { nome: "Albatroz de diamante", categoria: "Lendario", valor: 193 },
-            { nome: "Besouro gigante dourado", categoria: "Lendario", valor: 192 },
-            { nome: "Canguru", categoria: "Lendario", valor: 190 },
-            { nome: "Dragao de Lava", categoria: "Lendario", valor: 190 },
-            { nome: "Dragao Morcego de Morango", categoria: "Lendario", valor: 185 },
-            { nome: "Cavalo Justo Morto-vivo", categoria: "Lendario", valor: 185 },
-            { nome: "Borboleta Diamante", categoria: "Lendario", valor: 185 },
-            { nome: "Lobo Lava", categoria: "Lendario", valor: 185 },
-            { nome: "Furia do gelo", categoria: "Lendario", valor: 181 },
-            { nome: "Mechapup", categoria: "Lendario", valor: 180 },
-            { nome: "Dragao Fantasma Branco de Halloween", categoria: "Lendario", valor: 178 },
-            { nome: "Dragao Chines Dancante", categoria: "Lendario", valor: 178 },
-            { nome: "Camaleao", categoria: "Lendario", valor: 177 },
-            { nome: "Golem de Gelo", categoria: "Lendario", valor: 177 },
-            { nome: "Dragao Lavanda", categoria: "Lendario", valor: 177 },
-            { nome: "Diamond King Penguin", categoria: "Lendario", valor: 176 },
-            { nome: "Golden Chow-Chow", categoria: "Lendario", valor: 176 },
-            { nome: "Lula", categoria: "Lendario", valor: 175 },
-            { nome: "Planador de Acucar", categoria: "Lendario", valor: 175 },
-            { nome: "Cavalo Alado", categoria: "Lendario", valor: 175 },
-            { nome: "Unicornio de diamante", categoria: "Lendario", valor: 174 },
-            { nome: "Abelha rainha", categoria: "Lendario", valor: 151 },
-            { nome: "Macaco ninja", categoria: "Lendario", valor: 148 },
-            { nome: "Esqueleto Rex", categoria: "Lendario", valor: 143 },
-            { nome: "Dagao de diamante", categoria: "Lendario", valor: 133 },
-            { nome: "Borboleta verde", categoria: "Lendario", valor: 132 },
-            { nome: "Cavalo de justa", categoria: "Lendario", valor: 132 }
-        ];
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
 
-        function buscarPet() {
-            const input = document.getElementById('pesquisa');
-            const filtro = input.value.toLowerCase();
-            const lista = document.getElementById('listaPets');
-            lista.innerHTML = '';
+        let score = 0;
+        let life = 5; // Começando com 5 de vida
+        let items = [];
+        let enemies = [];
+        let rapHealth = 25; // Saúde da Raposa
+        let gameOver = false;
+        let mouseX = canvas.width / 2;
+        let mouseY = canvas.height / 2;
 
-            pets.forEach(pet => {
-                if (pet.nome.toLowerCase().includes(filtro)) {
-                    const item = document.createElement('li');
-                    item.textContent = `${pet.nome} - ${pet.categoria} - Valor: ${pet.valor}`;
-                    lista.appendChild(item);
-                }
-            });
+        const character = {
+            x: canvas.width / 2 - 25,
+            y: canvas.height / 2 - 25,
+            width: 50,
+            height: 50,
+            img: new Image()
+        };
+        character.img.src = 'girl.png'; // Imagem da personagem
+
+        let showRap = false;
+        let rapX = Math.random() * canvas.width;
+        let rapY = Math.random() * canvas.height;
+        let rapHitCount = 0; // Contador de cliques para derrotar a Raposa
+        let fairyX = Math.random() * canvas.width; // Posição da fada
+        let fairyY = Math.random() * canvas.height; // Posição da fada
+        let fairyVisible = false; // Fada visível
+
+        const backgroundImages = [new Image(), new Image()];
+        backgroundImages[0].src = 'cen1.jpg'; // Imagem do cenário 1
+        backgroundImages[1].src = 'cen2.jpg'; // Imagem do cenário 2
+        let currentBackground = 0; // Controla qual cenário está sendo exibido
+
+        function drawBackground() {
+            ctx.drawImage(backgroundImages[currentBackground], 0, 0, canvas.width, canvas.height);
         }
-    </script>
 
-    <footer>
-        <p>© 2024 Pesquisa de Pets. Desenvolvido pela RakyOfficialCenter.  <a href="#">Saiba mais</a>.</p>
-    </footer>
+        function drawCharacter() {
+            ctx.drawImage(character.img, character.x, character.y, character.width, character.height);
+        }
+
+        class Item {
+            constructor(x, y, type) {
+                this.x = x;
+                this.y = y;
+                this.type = type;
+                this.width = 30;
+                this.height = 30;
+                this.collected = false; // Marca se o item foi coletado
+            }
+            draw() {
+                if (!this.collected) {
+                    const img = new Image();
+                    img.src = this.type;
+                    ctx.drawImage(img, this.x, this.y, this.width, this.height);
+                }
+            }
+            update() {
+                // Não se move em direção ao mouse
+            }
+        }
+
+        class Enemy {
+            constructor(x, y, type, damage) {
+                this.x = x;
+                this.y = y;
+                this.type = type;
+                this.width = 30;
+                this.height = 30;
+                this.speed = 2; // Velocidade dos inimigos
+                this.damage = damage;
+                this.health = 1; // Inimigos normais têm 1 de vida
+            }
+            update() {
+                const dx = mouseX - this.x;
+                const dy = mouseY - this.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance > 0) {
+                    this.x += (dx / distance) * this.speed;
+                    this.y += (dy / distance) * this.speed;
+                }
+            }
+            draw() {
+                const img = new Image();
+                img.src = this.type;
+                ctx.drawImage(img, this.x, this.y, this.width, this.height);
+            }
+        }
+
+        function spawnItems() {
+            items.push(new Item(Math.random() * canvas.width, Math.random() * canvas.height, 'Bis.png'));
+            items.push(new Item(Math.random() * canvas.width, Math.random() * canvas.height, 'Bisc.png'));
+            items.push(new Item(Math.random() * canvas.width, Math.random() * canvas.height, 'Pud.png'));
+        }
+
+        function spawnEnemies() {
+            const enemyTypes = [
+                { type: 'Gato.png', damage: 1 },
+                { type: 'Mos.png', damage: 1 },
+                { type: 'Bat.png', damage: 1 },
+                { type: 'rap.png', damage: 2 } // Raposa como inimigo
+            ];
+            const randomEnemy = enemyTypes[Math.floor(Math.random() * enemyTypes.length)];
+            const enemy = new Enemy(Math.random() * canvas.width, Math.random() * canvas.height, randomEnemy.type, randomEnemy.damage);
+            enemies.push(enemy);
+        }
+
+        function update() {
+            drawBackground(); // Desenha o fundo
+
+            if (!gameOver) {
+                items.forEach(item => {
+                    item.draw();
+                    if (!item.collected && mouseX > item.x && mouseX < item.x + item.width && mouseY > item.y && mouseY < item.y + item.height) {
+                        if (item.type === 'fada.png') {
+                            life += 2; // Adiciona 2 vidas ao coletar a fada
+                            item.collected = true;
+                        } else {
+                            score += 1;
+                            item.collected = true; // Marca o item como coletado
+                        }
+                    }
+                });
+
+                enemies.forEach((enemy, index) => {
+                    enemy.update();
+                    enemy.draw();
+                    if (mouseX > enemy.x && mouseX < enemy.x + enemy.width && mouseY > enemy.y && mouseY < enemy.y + enemy.height) {
+                        life -= enemy.damage; // Diminui a vida do jogador
+                        enemies.splice(index, 1); // Remove o inimigo
+                    }
+                });
+
+                // Lógica para a Raposa
+                if (score >= 30) {
+                    showRap = true;
+                }
+
+                if (showRap && rapHealth > 0) {
+                    const rapImage = new Image();
+                    rapImage.src = 'rap.png'; // Imagem da Raposa
+                    ctx.drawImage(rapImage, rapX, rapY, 200, 200);
+
+                    // Mover a Raposa em direção ao mouse
+                    const dx = mouseX - rapX;
+                    const dy = mouseY - rapY;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance > 0) {
+                        rapX += (dx / distance) * 2; // Velocidade da Raposa
+                        rapY += (dy / distance) * 2; // Velocidade da Raposa
+                    }
+                }
+
+                // Verifica se a fada deve aparecer
+                if (fairyVisible) {
+                    const fairyImage = new Image();
+                    fairyImage.src = 'fada.png'; // Imagem da Fada
+                    ctx.drawImage(fairyImage, fairyX, fairyY, 50, 50);
+                    if (mouseX > fairyX && mouseX < fairyX + 50 && mouseY > fairyY && mouseY < fairyY + 50) {
+                        life += 2; // Adiciona 2 vidas ao coletar a fada
+                        fairyVisible = false; // Esconde a fada após coletar
+                    }
+                }
+
+                // Exibir pontuação e vida centralizadas
+                ctx.fillStyle = 'white';
+                ctx.font = '20px Arial';
+                ctx.fillText(`Score: ${score}`, canvas.width / 2 - 50, 20);
+                ctx.fillText(`Life: ${life}`, canvas.width / 2 + 50, 20);
+                if (showRap) {
+                    ctx.fillText(`Rap Health: ${rapHealth}`, canvas.width / 2 - 50, 40);
+                }
+
+                drawCharacter();
+                
+                // Diminui o tamanho do personagem e aumenta o dano dos inimigos a cada 50 pontos
+                if (score >= 50) {
+                    character.width = 40;
+                    character.height = 40;
+                    enemies.forEach(enemy => {
+                        enemy.damage += 10; // Aumenta o dano dos inimigos
+                    });
+                }
+
+                // Verifica se o jogador perdeu
+                if (life <= 0) {
+                    gameOver = true;
+                }
+            } else {
+                ctx.fillStyle = 'red';
+                ctx.font = '40px Arial';
+                ctx.fillText('Você perdeu', canvas.width / 2 - 100, canvas.height / 2);
+                ctx.font = '20px Arial';
+                ctx.fillText('Clique para Reiniciar', canvas.width / 2 - 100, canvas.height / 2 + 40);
+            }
+        }
+
+        function gameLoop() {
+            if (!gameOver) {
+                update();
+                requestAnimationFrame(gameLoop);
+            }
+        }
+
+        canvas.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            character.x = mouseX - character.width / 2;
+            character.y = mouseY - character.height / 2;
+        });
+
+        canvas.addEventListener('click', () => {
+            if (gameOver) {
+                // Reinicia o jogo
+                score = 0;
+                life = 5;
+                enemies = [];
+                rapHealth = 25;
+                gameOver = false;
+                character.width = 50; // Reseta o tamanho do personagem
+                character.height = 50;
+                rapX = Math.random() * canvas.width;
+                rapY = Math.random() * canvas.height;
+                fairyVisible = false; // Esconde a fada
+            } else if (showRap && rapHealth > 0) {
+                rapHitCount++;
+                if (rapHitCount >= 2) {
+                    rapHealth -= 20;
+                    rapHitCount = 0; // Reseta o contador
+                }
+            }
+        });
+
+        setInterval(spawnItems, 3000);
+        setInterval(spawnEnemies, 5000); // Inimigos a cada 5 segundos
+
+        // Aumentar a velocidade e fazer a fada aparecer a cada 10 segundos
+        let speedIncreaseInterval = setInterval(() => {
+            enemies.forEach(enemy => enemy.speed += 1); // Aumenta a velocidade dos inimigos
+            fairyVisible = true; // Torna a fada visível
+            fairyX = Math.random() * canvas.width; // Nova posição da fada
+            fairyY = Math.random() * canvas.height; // Nova posição da fada
+        }, 10000);
+
+        document.getElementById('backgroundMusic').play();
+
+        gameLoop();
+    </script>
 </body>
 </html>
