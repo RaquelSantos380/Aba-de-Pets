@@ -8,17 +8,54 @@
         body {
             margin: 0;
             overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            background-color: #f8e1f4; /* Fundo suave */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
         }
         canvas {
-            display: block;
+            display: none; /* Inicialmente oculto */
+        }
+        .menu {
+            text-align: center;
+            background-color: #ffb3e6; /* Cor de fundo do menu */
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .menu h1 {
+            margin-bottom: 20px;
+            color: #d5006d; /* Cor do título */
+        }
+        .menu button {
+            background-color: #d5006d; /* Cor do botão */
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+        .menu button:hover {
+            background-color: #c40058; /* Cor do botão ao passar o mouse */
         }
     </style>
 </head>
 <body>
+    <div class="menu" id="menu">
+        <h1>Bem-vinda ao Jogo da Flecha!</h1>
+        <button id="startButton">Iniciar Jogo</button>
+    </div>
     <canvas id="gameCanvas"></canvas>
     <script>
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
+        const menu = document.getElementById('menu');
+        const startButton = document.getElementById('startButton');
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
@@ -99,8 +136,12 @@
             aiming = false;
         });
 
-        setInterval(spawnMonster, 2000);
-        update();
+        startButton.addEventListener('click', function() {
+            menu.style.display = 'none'; // Oculta o menu
+            canvas.style.display = 'block'; // Mostra o canvas
+            setInterval(spawnMonster, 2000);
+            update();
+        });
     </script>
 </body>
 </html>
